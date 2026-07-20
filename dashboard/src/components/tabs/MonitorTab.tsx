@@ -88,14 +88,16 @@ export function MonitorTab({ data, history, connected, th }: Props) {
           unit="°C"
           status={statusOf(data?.temperature ?? null, th.tempMin, th.tempMax)}
         />
-        <SensorCard
-          icon={Gauge}
-          label="Kelembaban"
-          value={fmtNum(data?.humidity ?? null)}
-          unit="%"
-          accent="water"
-          status={statusOf(data?.humidity ?? null, 40, 90)}
-        />
+        <div className="col-span-2 sm:col-span-1 [&>*]:h-full">
+          <SensorCard
+            icon={Gauge}
+            label="Kelembaban"
+            value={fmtNum(data?.humidity ?? null)}
+            unit="%"
+            accent="water"
+            status={statusOf(data?.humidity ?? null, 40, 90)}
+          />
+        </div>
       </div>
 
       <ActuatorControls data={data} disabled={!connected} />
