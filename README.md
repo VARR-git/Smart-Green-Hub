@@ -32,14 +32,8 @@ field in the database changes.
 
 ## Dashboard
 
-<p align="center">
-  <a href="https://smart-green-hub.web.app/">
-    <img src="https://img.shields.io/badge/Open_Live_Dashboard-smart--green--hub.web.app-22c55e?style=for-the-badge&logo=firebase&logoColor=white" alt="Open Smart Green Hub live dashboard">
-  </a>
-</p>
 
 <p align="center">
-  <a href="https://smart-green-hub.web.app/">
     <img src="dashboard/public/main_dashboard.png" alt="Smart Green Hub live monitor with pH, nutrient, environment, and actuator controls" width="100%">
   </a>
 </p>
