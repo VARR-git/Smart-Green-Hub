@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 66 24% 98%;
+    --foreground: 160 14% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 160 14% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 14% 12%;
+    --primary: 146 40% 33%;
+    --primary-foreground: 140 34% 97%;
+    --secondary: 150 16% 94%;
+    --secondary-foreground: 160 14% 20%;
+    --muted: 150 14% 95%;
+    --muted-foreground: 155 7% 44%;
+    --accent: 150 16% 93%;
+    --accent-foreground: 160 14% 20%;
+    --destructive: 4 74% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 150 13% 89%;
+    --input: 150 13% 89%;
+    --ring: 146 40% 33%;
+
+    --water: 182 45% 40%;
+    --warn: 32 90% 48%;
+
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 156 15% 7%;
+    --foreground: 150 10% 92%;
+    --card: 158 13% 9%;
+    --card-foreground: 150 10% 92%;
+    --popover: 158 13% 9%;
+    --popover-foreground: 150 10% 92%;
+    --primary: 146 46% 56%;
+    --primary-foreground: 156 30% 9%;
+    --secondary: 156 9% 15%;
+    --secondary-foreground: 150 10% 90%;
+    --muted: 156 9% 14%;
+    --muted-foreground: 150 7% 58%;
+    --accent: 156 9% 16%;
+    --accent-foreground: 150 10% 90%;
+    --destructive: 2 66% 54%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 156 9% 17%;
+    --input: 156 9% 18%;
+    --ring: 146 46% 56%;
+
+    --water: 182 48% 52%;
+    --warn: 36 92% 56%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv11", "ss01";
+    background-image: radial-gradient(
+      120% 80% at 50% -10%,
+      hsl(var(--primary) / 0.06),
+      transparent 60%
+    );
+    background-attachment: fixed;
+  }
+  .nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .print-open {
+    display: block !important;
+  }
+}
