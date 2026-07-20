@@ -2,6 +2,7 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <HTTPUpdate.h>
+#include <ArduinoOTA.h>
 #include <Firebase_ESP_Client.h>
 
 // TokenHelper & RTDBHelper bawaan library Firebase ESP32
@@ -12,7 +13,7 @@
 #include "secrets.h"
 
 // Versi firmware berjalan, naikkan setiap build baru untuk OTA
-#define FW_VERSION "1.0.2"
+#define FW_VERSION "1.0.5"
 
 // Firmware diunduh dari GitHub Releases: tag v<versi>, file firmware.bin
 #define FW_URL_BASE "https://github.com/VARR-git/Smart-Green-Hub/releases/download/v"
@@ -74,6 +75,10 @@ void setup()
   Serial.println("\nWi-Fi Terkoneksi!");
   Serial.print("IP Address ESP32: ");
   Serial.println(WiFi.localIP());
+
+  // Upload wireless dari PlatformIO (env:wireless, harus satu jaringan WiFi)
+  ArduinoOTA.setHostname("smart-green-hub");
+  ArduinoOTA.begin();
 
   // 3. Konfigurasi Client Firebase (login anonim, provider Anonymous harus aktif)
   config.api_key = FIREBASE_API_KEY;
@@ -152,6 +157,8 @@ void setup()
 
 void loop()
 {
+  ArduinoOTA.handle();
+
   unsigned long currentMillis = millis();
 
   if (Firebase.ready())
