@@ -13,7 +13,7 @@
 #include "secrets.h"
 
 // Versi firmware berjalan, naikkan setiap build baru untuk OTA
-#define FW_VERSION "1.0.5"
+#define FW_VERSION "1.0.6"
 
 // Firmware diunduh dari GitHub Releases: tag v<versi>, file firmware.bin
 #define FW_URL_BASE "https://github.com/VARR-git/Smart-Green-Hub/releases/download/v"
@@ -25,10 +25,10 @@ FirebaseAuth auth;
 FirebaseConfig config;
 
 // Variabel Data Hidroponik
-float phValue = 6.5;
-float tdsValue = 800.0;
-float tempValue = 25.0;
-float humiValue = 90;
+float phValue = 0.0;
+float tdsValue = 0.0;
+float tempValue = 0.0;
+float humiValue = 0.0;
 bool pumpStatus = false;
 bool fanStatus = false;
 bool lightStatus = false;
@@ -217,9 +217,6 @@ void TaskHydroponicLogic(void *pvParameters)
 
   for (;;)
   {
-    phValue = 6.0 + ((float)random(-50, 50) / 100.0);
-    tdsValue = 800 + random(-20, 20);
-
     newDataAvailable = true;
     vTaskDelay(pdMS_TO_TICKS(2000));
   }
