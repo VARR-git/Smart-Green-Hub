@@ -52,7 +52,7 @@ field in the database changes.
   <tr>
     <td align="center" width="33%"><b>Peringatan Cerdas</b></td>
     <td align="center" width="33%"><b>Laporan &amp; Ekspor</b></td>
-    <td align="center" width="33%"><b>Pengaturan Ambang</b></td>
+    <td align="center" width="33%"><b>Pengaturan</b></td>
   </tr>
   <tr>
     <td><a href="dashboard/public/warning.png"><img src="dashboard/public/warning.png" alt="Smart alerts and history" width="100%"></a></td>
