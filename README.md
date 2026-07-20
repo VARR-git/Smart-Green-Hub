@@ -27,24 +27,42 @@ to and listens on the cloud database. Firmware itself can be updated remotely �
 the device pulls a new `firmware.bin` from **GitHub Releases** when a version
 field in the database changes.
 
-> The firmware currently ships simulated sensor values so the whole pipeline can
-> be exercised end to end; swap `TaskHydroponicLogic` for real sensor reads when
-> the probes are wired.
+> Sensor channels default to `0` until physical probes are wired. Replace the
+> placeholder values in `TaskHydroponicLogic` with real sensor reads.
 
 ## Dashboard
 
 <p align="center">
-  <img src="dashboard/public/main_dashboard.png" alt="Monitor dashboard with live pH, nutrient, and actuator controls" width="100%">
+  <a href="https://smart-green-hub.web.app/">
+    <img src="https://img.shields.io/badge/Open_Live_Dashboard-smart--green--hub.web.app-22c55e?style=for-the-badge&logo=firebase&logoColor=white" alt="Open Smart Green Hub live dashboard">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://smart-green-hub.web.app/">
+    <img src="dashboard/public/main_dashboard.png" alt="Smart Green Hub live monitor with pH, nutrient, environment, and actuator controls" width="100%">
+  </a>
+</p>
+
+<p align="center">
+  <sub><b>Live Monitor</b> — realtime crop conditions, actuator controls, daily targets, and sensor trends.</sub>
 </p>
 
 <table>
   <tr>
-    <td width="50%"><img src="dashboard/public/warning.png" alt="Smart alerts"><br><sub><b>Peringatan Cerdas</b> — active alerts &amp; history</sub></td>
-    <td width="50%"><img src="dashboard/public/report.png" alt="Daily report"><br><sub><b>Laporan &amp; Ekspor</b> — daily summary, PDF, share</sub></td>
+    <td align="center" width="33%"><b>Peringatan Cerdas</b></td>
+    <td align="center" width="33%"><b>Laporan &amp; Ekspor</b></td>
+    <td align="center" width="33%"><b>Pengaturan Ambang</b></td>
   </tr>
   <tr>
-    <td width="50%"><img src="dashboard/public/settings.png" alt="Threshold settings"><br><sub><b>Pengaturan Ambang</b> — thresholds &amp; plant profiles</sub></td>
-    <td width="50%"></td>
+    <td><a href="dashboard/public/warning.png"><img src="dashboard/public/warning.png" alt="Smart alerts and history" width="100%"></a></td>
+    <td><a href="dashboard/public/report.png"><img src="dashboard/public/report.png" alt="Daily report and export" width="100%"></a></td>
+    <td><a href="dashboard/public/settings.png"><img src="dashboard/public/settings.png" alt="Threshold and plant profile settings" width="100%"></a></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Active alerts and event history</sub></td>
+    <td align="center"><sub>Daily summary, PDF, and sharing</sub></td>
+    <td align="center"><sub>Thresholds and plant profiles</sub></td>
   </tr>
 </table>
 
