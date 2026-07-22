@@ -1,6 +1,21 @@
-import { useMemo, useState } from "react"
-import { Bell, LayoutGrid, Settings2, FileText, AlertCircle } from "lucide-react"
+import { type FormEvent, useEffect, useMemo, useState } from "react"
+import {
+  AlertCircle,
+  Bell,
+  Eye,
+  EyeOff,
+  FileText,
+  LayoutGrid,
+  Leaf,
+  Loader2,
+  LockKeyhole,
+  Moon,
+  Settings2,
+  Sun,
+} from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Header } from "@/components/Header"
 import { MonitorTab } from "@/components/tabs/MonitorTab"
 import { AlertTab } from "@/components/tabs/AlertTab"
@@ -11,6 +26,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage"
 import { useTheme } from "@/hooks/useTheme"
 import { computeActive, useAlertLog } from "@/hooks/useAlerts"
 import { DEFAULT_THRESHOLDS } from "@/lib/plants"
+import { login, logout, observeAdminSession } from "@/lib/firebase"
 import type { Thresholds } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -23,6 +39,35 @@ const TABS = [
 
 export default function App() {
   const { theme, toggle } = useTheme()
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    const stop = observeAdminSession(setAuthenticated)
+    const fallback = window.setTimeout(
+      () => setAuthenticated((value) => value ?? false),
+      3000,
+    )
+    return () => {
+      stop()
+      window.clearTimeout(fallback)
+    }
+  }, [])
+
+  if (authenticated === null) return <AuthLoading />
+  if (!authenticated) {
+    return <LoginScreen theme={theme} onToggleTheme={toggle} />
+  }
+
+  return <Dashboard theme={theme} onToggleTheme={toggle} />
+}
+
+function Dashboard({
+  theme,
+  onToggleTheme,
+}: {
+  theme: "light" | "dark"
+  onToggleTheme: () => void
+}) {
   const { data, history, connected, error, clearHistory } = useHydroData()
   const [th, setTh] = useLocalStorage<Thresholds>(
     "sgh_thresholds",
@@ -42,7 +87,8 @@ export default function App() {
         data={data}
         connected={connected}
         theme={theme}
-        onToggleTheme={toggle}
+        onToggleTheme={onToggleTheme}
+        onLogout={() => void logout()}
       />
 
       <main className="container max-w-5xl pb-28 pt-5 lg:pb-12">
@@ -68,8 +114,7 @@ export default function App() {
                 Gagal terhubung ke Firebase
               </p>
               <p className="text-xs text-muted-foreground">
-                {error}. Pastikan provider Anonymous aktif dan domain ini
-                terdaftar di Authentication → Settings → Authorized domains.
+                {error}. Pastikan akun ini memiliki izin pada Realtime Database.
               </p>
             </div>
           </div>
@@ -127,5 +172,120 @@ export default function App() {
         </div>
       </nav>
     </Tabs>
+  )
+}
+
+function AuthLoading() {
+  return (
+    <main className="grid min-h-svh place-items-center">
+      <Loader2 className="size-6 animate-spin text-primary" aria-label="Memuat sesi" />
+    </main>
+  )
+}
+
+function LoginScreen({
+  theme,
+  onToggleTheme,
+}: {
+  theme: "light" | "dark"
+  onToggleTheme: () => void
+}) {
+  const [pin, setPin] = useState("")
+  const [showPin, setShowPin] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState("")
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setBusy(true)
+    setError("")
+    try {
+      await login(pin)
+    } catch (cause) {
+      const code = (cause as { code?: string }).code
+      setError(
+        code === "auth/too-many-requests"
+          ? "Terlalu banyak percobaan. Coba lagi nanti."
+          : "PIN admin salah.",
+      )
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <main className="relative grid min-h-svh place-items-center p-5">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute right-5 top-5"
+        onClick={onToggleTheme}
+        aria-label="Ganti tema"
+      >
+        {theme === "dark" ? <Sun /> : <Moon />}
+      </Button>
+
+      <Card className="w-full max-w-sm border-border/80 shadow-[0_24px_80px_-32px_hsl(var(--primary)/0.35)]">
+        <CardContent className="p-6 sm:p-8">
+          <div className="mb-7">
+            <span className="mb-5 grid size-11 place-items-center rounded-2xl bg-primary/10 text-primary">
+              <Leaf className="size-6" />
+            </span>
+            <div className="mb-2 flex items-center gap-2">
+              <h1 className="text-2xl font-semibold tracking-tight">Smart Green Hub</h1>
+              <LockKeyhole className="size-4 text-muted-foreground" />
+            </div>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Masukkan PIN admin untuk memantau dan mengatur sistem hidroponik.
+            </p>
+          </div>
+
+          <form onSubmit={submit} className="space-y-4">
+            <label className="block space-y-1.5" htmlFor="pin">
+              <span className="text-xs font-medium text-muted-foreground">PIN Admin</span>
+              <span className="relative block">
+                <input
+                  id="pin"
+                  type={showPin ? "text" : "password"}
+                  value={pin}
+                  onChange={(event) => setPin(event.target.value.replace(/\D/g, ""))}
+                  inputMode="numeric"
+                  pattern="[0-9]{6,12}"
+                  maxLength={12}
+                  autoComplete="current-password"
+                  required
+                  minLength={6}
+                  className="h-11 w-full rounded-xl border bg-background px-3 pr-11 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
+                  placeholder="6–12 digit"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPin((value) => !value)}
+                  className="absolute inset-y-0 right-0 grid w-11 place-items-center text-muted-foreground hover:text-foreground"
+                  aria-label={showPin ? "Sembunyikan PIN" : "Tampilkan PIN"}
+                >
+                  {showPin ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                </button>
+              </span>
+            </label>
+
+            {error && (
+              <p role="alert" className="text-xs font-medium text-destructive">
+                {error}
+              </p>
+            )}
+
+            <Button type="submit" className="w-full" disabled={busy}>
+              {busy && <Loader2 className="animate-spin" />}
+              {busy ? "Memverifikasi..." : "Masuk ke dashboard"}
+            </Button>
+          </form>
+
+          <p className="mt-6 text-center text-[11px] text-muted-foreground">
+            Akses terbatas untuk pengelola Smart Green Hub.
+          </p>
+        </CardContent>
+      </Card>
+    </main>
   )
 }
