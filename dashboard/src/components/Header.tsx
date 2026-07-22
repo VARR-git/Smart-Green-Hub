@@ -1,4 +1,4 @@
-import { Leaf, Moon, Sun, Wifi, WifiOff } from "lucide-react"
+import { Leaf, LogOut, Moon, Sun, Wifi, WifiOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import type { HydroData } from "@/lib/types"
@@ -8,9 +8,10 @@ interface Props {
   connected: boolean
   theme: "light" | "dark"
   onToggleTheme: () => void
+  onLogout: () => void
 }
 
-export function Header({ data, connected, theme, onToggleTheme }: Props) {
+export function Header({ data, connected, theme, onToggleTheme, onLogout }: Props) {
   return (
     <header className="sticky top-0 z-20 border-b border-border/70 bg-background/80 backdrop-blur-md">
       <div className="container flex h-16 items-center justify-between">
@@ -56,6 +57,15 @@ export function Header({ data, connected, theme, onToggleTheme }: Props) {
             ) : (
               <Moon className="size-4" />
             )}
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-9"
+            onClick={onLogout}
+            aria-label="Keluar"
+          >
+            <LogOut className="size-4" />
           </Button>
         </div>
       </div>
