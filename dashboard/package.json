@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
+    "test:demo": "node --experimental-strip-types --test src/lib/demo.test.ts",
     "preview": "vite preview"
   },
   "dependencies": {

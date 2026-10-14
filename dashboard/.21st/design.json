@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "project": {
+    "name": "dashboard",
+    "productType": null,
+    "stack": [
+      "react",
+      "tailwind-v3",
+      "vite"
+    ]
+  },
+  "sources": {
+    "tokens": [
+      "src/index.css"
+    ],
+    "components": [
+      "src/components/ui"
+    ],
+    "assets": [],
+    "instructions": []
+  },
+  "design": {
+    "colorMode": "light-and-dark",
+    "colors": {
+      "--background": {
+        "value": "156 15% 7%",
+        "source": "src/index.css"
+      },
+      "--foreground": {
+        "value": "150 10% 92%",
+        "source": "src/index.css"
+      },
+      "--card-foreground": {
+        "value": "150 10% 92%",
+        "source": "src/index.css"
+      },
+      "--popover-foreground": {
+        "value": "150 10% 92%",
+        "source": "src/index.css"
+      },
+      "--primary": {
+        "value": "146 46% 56%",
+        "source": "src/index.css"
+      },
+      "--primary-foreground": {
+        "value": "156 30% 9%",
+        "source": "src/index.css"
+      },
+      "--secondary": {
+        "value": "156 9% 15%",
+        "source": "src/index.css"
+      },
+      "--secondary-foreground": {
+        "value": "150 10% 90%",
+        "source": "src/index.css"
+      },
+      "--muted": {
+        "value": "156 9% 14%",
+        "source": "src/index.css"
+      },
+      "--muted-foreground": {
+        "value": "150 7% 58%",
+        "source": "src/index.css"
+      },
+      "--accent": {
+        "value": "156 9% 16%",
+        "source": "src/index.css"
+      },
+      "--accent-foreground": {
+        "value": "150 10% 90%",
+        "source": "src/index.css"
+      },
+      "--destructive": {
+        "value": "2 66% 54%",
+        "source": "src/index.css"
+      },
+      "--destructive-foreground": {
+        "value": "0 0% 98%",
+        "source": "src/index.css"
+      },
+      "--border": {
+        "value": "156 9% 17%",
+        "source": "src/index.css"
+      },
+      "--ring": {
+        "value": "146 46% 56%",
+        "source": "src/index.css"
+      }
+    },
+    "typography": {},
+    "spacing": {},
+    "radius": {
+      "--radius": {
+        "value": "1rem",
+        "source": "src/index.css"
+      }
+    },
+    "shadows": {},
+    "motion": {},
+    "density": "unknown"
+  },
+  "components": {
+    "installed": [
+      "badge",
+      "button",
+      "card",
+      "label",
+      "separator",
+      "slider",
+      "switch",
+      "tabs"
+    ],
+    "preferredPrimitives": [
+      "radix-ui"
+    ],
+    "patterns": []
+  },
+  "constraints": {
+    "must": [],
+    "avoid": []
+  },
+  "decisions": [
+    {
+      "decision": "Use a compact greenhouse operations console with a desktop side rail, a dominant nutrient solution instrument panel, and flat secondary monitoring regions.",
+      "reason": "The dashboard must feel specific to a hydroponic field system and avoid a generic SaaS card grid."
+    },
+    {
+      "decision": "Use solid forest green, leaf green, warm cream, muted water teal, and restrained amber; avoid neon, glow, glass, and decorative gradients.",
+      "reason": "The user explicitly requested solid, mature colors without neon treatment."
+    },
+    {
+      "decision": "Render the daily report as a full-width A4 operations sheet with its own document header, live readings, daily range table, thresholds, and recording coverage.",
+      "reason": "The report must remain legible in light or dark mode and must not print the application shell."
+    }
+  ],
+  "evidence": [
+    {
+      "fact": "components.installed",
+      "source": "src/components/ui"
+    },
+    {
+      "fact": "design.colorMode:light-and-dark",
+      "source": "src/index.css"
+    },
+    {
+      "fact": "design.tokens",
+      "source": "src/index.css"
+    },
+    {
+      "fact": "project.stack:react",
+      "source": "package.json"
+    },
+    {
+      "fact": "project.stack:tailwind-v3",
+      "source": "package.json"
+    },
+    {
+      "fact": "project.stack:vite",
+      "source": "package.json"
+    }
+  ],
+  "generatedAt": "2026-09-11T01:35:55.668Z"
+}

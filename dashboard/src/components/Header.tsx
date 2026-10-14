@@ -1,4 +1,4 @@
-import { Leaf, LogOut, Moon, Sun, Wifi, WifiOff } from "lucide-react"
+import { FlaskConical, Leaf, LogOut, Moon, Sun, Wifi, WifiOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import type { HydroData } from "@/lib/types"
@@ -6,45 +6,75 @@ import type { HydroData } from "@/lib/types"
 interface Props {
   data: HydroData | null
   connected: boolean
+  demo: boolean
+  onToggleDataMode: () => void
   theme: "light" | "dark"
   onToggleTheme: () => void
   onLogout: () => void
 }
 
-export function Header({ data, connected, theme, onToggleTheme, onLogout }: Props) {
+export function Header({
+  data,
+  connected,
+  demo,
+  onToggleDataMode,
+  theme,
+  onToggleTheme,
+  onLogout,
+}: Props) {
   return (
-    <header className="sticky top-0 z-20 border-b border-border/70 bg-background/80 backdrop-blur-md">
-      <div className="container flex h-16 items-center justify-between">
+    <header className="no-print sticky top-0 z-20 border-b border-border bg-background">
+      <div className="mx-auto flex h-[72px] w-full max-w-screen-2xl items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-2.5">
-          <span className="grid size-9 place-items-center rounded-xl bg-primary/10 text-primary">
+          <span className="grid size-10 place-items-center rounded-md bg-foreground text-background dark:bg-primary dark:text-primary-foreground">
             <Leaf className="size-5" />
           </span>
           <div className="leading-tight">
-            <h1 className="text-sm font-semibold tracking-tight">
+            <h1 className="text-sm font-bold tracking-[-0.02em]">
               Smart Green Hub
             </h1>
-            <p className="text-[11px] text-muted-foreground">
-              Hidroponik · {data?.fw?.running ? `fw ${data.fw.running}` : "ESP32-S3"}
+            <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+              Sistem hidroponik lapangan
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <span
+          <button
+            type="button"
+            onClick={onToggleDataMode}
             className={cn(
-              "flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium",
-              connected
-                ? "bg-primary/10 text-primary"
-                : "bg-destructive/12 text-destructive",
+              "mr-1 flex size-9 items-center justify-center gap-2 rounded-md text-[11px] font-medium transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:h-auto md:w-auto md:justify-start md:border-r md:border-border md:pr-4",
+              demo || connected
+                ? "text-foreground"
+                : "text-destructive",
             )}
+            aria-label={demo ? "Ganti ke data realtime" : "Ganti ke mode simulasi"}
           >
-            {connected ? (
-              <Wifi className="size-3.5" />
+            {demo ? (
+              <FlaskConical className="size-3.5 text-warn" />
+            ) : connected ? (
+              <Wifi className="size-3.5 text-primary" />
             ) : (
               <WifiOff className="size-3.5" />
             )}
-            {connected ? "Online" : "Offline"}
-          </span>
+            <span className="hidden md:block">
+              <span className="block font-semibold">
+                {demo
+                  ? "Mode simulasi"
+                  : connected
+                    ? "Realtime · online"
+                    : "Realtime · offline"}
+              </span>
+              <span className="block text-[9px] font-normal text-muted-foreground">
+                {demo
+                  ? "Klik untuk realtime"
+                  : data?.updatedAt
+                    ? `Sinkron ${data.updatedAt}`
+                    : "Belum ada sinkronisasi"}
+              </span>
+            </span>
+          </button>
           <Button
             variant="ghost"
             size="icon"

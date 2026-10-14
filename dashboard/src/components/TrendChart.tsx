@@ -1,6 +1,7 @@
 import {
   Line,
   LineChart,
+  ReferenceArea,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -8,9 +9,9 @@ import {
 } from "recharts"
 import { Card } from "@/components/ui/card"
 import { clockOf } from "@/lib/format"
-import type { Sample } from "@/lib/types"
+import type { Sample, Thresholds } from "@/lib/types"
 
-export function TrendChart({ history }: { history: Sample[] }) {
+export function TrendChart({ history, th }: { history: Sample[]; th: Thresholds }) {
   const data = history.slice(-120).map((s) => ({
     t: s.t,
     ph: s.ph,
@@ -18,11 +19,14 @@ export function TrendChart({ history }: { history: Sample[] }) {
   }))
 
   return (
-    <Card className="p-4">
-      <div className="mb-1 flex items-center justify-between">
-        <p className="text-xs font-medium text-muted-foreground">
-          Tren pH &amp; Nutrisi
-        </p>
+    <Card className="p-4 sm:p-5">
+      <div className="mb-3 flex items-start justify-between gap-3">
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
+            Telemetri larutan
+          </p>
+          <h3 className="mt-0.5 text-sm font-semibold">Stabilitas pH &amp; nutrisi</h3>
+        </div>
         <div className="flex gap-3 text-[10px] font-medium">
           <span className="flex items-center gap-1 text-primary">
             <span className="size-2 rounded-full bg-primary" /> pH
@@ -57,6 +61,14 @@ export function TrendChart({ history }: { history: Sample[] }) {
               width={24}
             />
             <YAxis yAxisId="tds" hide domain={["auto", "auto"]} />
+            <ReferenceArea
+              yAxisId="ph"
+              y1={th.phMin}
+              y2={th.phMax}
+              fill="hsl(var(--primary))"
+              fillOpacity={0.08}
+              strokeOpacity={0}
+            />
             <Tooltip
               contentStyle={{
                 background: "hsl(var(--popover))",

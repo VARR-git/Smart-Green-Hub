@@ -46,6 +46,11 @@ export default {
         },
         water: "hsl(var(--water))",
         warn: "hsl(var(--warn))",
+        forest: {
+          DEFAULT: "hsl(var(--forest))",
+          foreground: "hsl(var(--forest-foreground))",
+        },
+        field: "hsl(var(--field))",
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -8,9 +8,10 @@ interface Props {
   value: number | null
   min: number
   max: number
+  inverse?: boolean
 }
 
-export function PhScale({ value, min, max }: Props) {
+export function PhScale({ value, min, max, inverse = false }: Props) {
   const pct = (v: number) => Math.max(0, Math.min(100, (v / 14) * 100))
   const has = value != null
 
@@ -23,25 +24,40 @@ export function PhScale({ value, min, max }: Props) {
         />
         {/* pita aman */}
         <div
-          className="absolute inset-y-0 rounded-full ring-2 ring-foreground/70 ring-offset-0"
+          className={cn(
+            "absolute inset-y-0 rounded-full ring-2 ring-offset-0",
+            inverse ? "ring-white/80" : "ring-foreground/70",
+          )}
           style={{ left: `${pct(min)}%`, width: `${pct(max) - pct(min)}%` }}
         />
         {/* penanda nilai */}
         {has && (
           <div
-            className="absolute top-1/2 z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-[3px] border-background bg-foreground shadow-md transition-[left] duration-500"
+            className={cn(
+              "absolute top-1/2 z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-[3px] shadow-md transition-[left] duration-500",
+              inverse
+                ? "border-forest bg-white"
+                : "border-background bg-foreground",
+            )}
             style={{ left: `${pct(value!)}%` }}
           />
         )}
       </div>
-      <div className="mt-2 flex justify-between text-[10px] font-medium text-muted-foreground">
+      <div
+        className={cn(
+          "mt-2 flex justify-between text-[10px] font-medium",
+          inverse ? "text-forest-foreground/55" : "text-muted-foreground",
+        )}
+      >
         <span>0 asam</span>
         <span
           className={cn(
             "tabular-nums",
             has && (value! < min || value! > max)
               ? "text-destructive"
-              : "text-primary",
+              : inverse
+                ? "text-field"
+                : "text-primary",
           )}
         >
           aman {min}–{max}

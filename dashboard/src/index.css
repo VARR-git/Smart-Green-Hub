@@ -4,55 +4,61 @@
 
 @layer base {
   :root {
-    --background: 66 24% 98%;
-    --foreground: 160 14% 12%;
-    --card: 0 0% 100%;
-    --card-foreground: 160 14% 12%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 160 14% 12%;
-    --primary: 146 40% 33%;
-    --primary-foreground: 140 34% 97%;
-    --secondary: 150 16% 94%;
-    --secondary-foreground: 160 14% 20%;
-    --muted: 150 14% 95%;
-    --muted-foreground: 155 7% 44%;
-    --accent: 150 16% 93%;
-    --accent-foreground: 160 14% 20%;
-    --destructive: 4 74% 51%;
+    --background: 64 20% 95%;
+    --foreground: 151 34% 12%;
+    --card: 60 24% 98%;
+    --card-foreground: 151 34% 12%;
+    --popover: 60 24% 98%;
+    --popover-foreground: 151 34% 12%;
+    --primary: 145 42% 28%;
+    --primary-foreground: 60 24% 98%;
+    --secondary: 92 17% 88%;
+    --secondary-foreground: 151 34% 15%;
+    --muted: 75 14% 90%;
+    --muted-foreground: 145 9% 39%;
+    --accent: 92 17% 88%;
+    --accent-foreground: 151 34% 15%;
+    --destructive: 5 60% 46%;
     --destructive-foreground: 0 0% 98%;
-    --border: 150 13% 89%;
-    --input: 150 13% 89%;
-    --ring: 146 40% 33%;
+    --border: 91 12% 80%;
+    --input: 91 12% 80%;
+    --ring: 145 42% 28%;
 
-    --water: 182 45% 40%;
-    --warn: 32 90% 48%;
+    --water: 184 43% 33%;
+    --warn: 31 72% 43%;
+    --forest: 151 43% 13%;
+    --forest-foreground: 62 26% 94%;
+    --field: 83 28% 72%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 156 15% 7%;
-    --foreground: 150 10% 92%;
-    --card: 158 13% 9%;
-    --card-foreground: 150 10% 92%;
-    --popover: 158 13% 9%;
-    --popover-foreground: 150 10% 92%;
-    --primary: 146 46% 56%;
-    --primary-foreground: 156 30% 9%;
-    --secondary: 156 9% 15%;
-    --secondary-foreground: 150 10% 90%;
-    --muted: 156 9% 14%;
-    --muted-foreground: 150 7% 58%;
-    --accent: 156 9% 16%;
-    --accent-foreground: 150 10% 90%;
-    --destructive: 2 66% 54%;
+    --background: 150 27% 7%;
+    --foreground: 65 18% 91%;
+    --card: 150 24% 10%;
+    --card-foreground: 65 18% 91%;
+    --popover: 150 24% 10%;
+    --popover-foreground: 65 18% 91%;
+    --primary: 108 24% 61%;
+    --primary-foreground: 151 43% 10%;
+    --secondary: 146 15% 17%;
+    --secondary-foreground: 65 18% 91%;
+    --muted: 150 13% 15%;
+    --muted-foreground: 97 9% 61%;
+    --accent: 146 15% 17%;
+    --accent-foreground: 65 18% 91%;
+    --destructive: 5 59% 55%;
     --destructive-foreground: 0 0% 98%;
-    --border: 156 9% 17%;
-    --input: 156 9% 18%;
-    --ring: 146 46% 56%;
+    --border: 145 13% 21%;
+    --input: 145 13% 21%;
+    --ring: 108 24% 61%;
 
-    --water: 182 48% 52%;
-    --warn: 36 92% 56%;
+    --water: 181 34% 55%;
+    --warn: 36 67% 58%;
+    --forest: 151 39% 11%;
+    --forest-foreground: 65 18% 91%;
+    --field: 83 23% 68%;
   }
 }
 
@@ -63,12 +69,6 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv11", "ss01";
-    background-image: radial-gradient(
-      120% 80% at 50% -10%,
-      hsl(var(--primary) / 0.06),
-      transparent 60%
-    );
-    background-attachment: fixed;
   }
   .nums {
     font-variant-numeric: tabular-nums;
@@ -76,14 +76,80 @@
   }
 }
 
+@page {
+  size: A4 portrait;
+  margin: 12mm;
+}
+
 @media print {
+  :root,
+  .dark {
+    --background: 0 0% 100%;
+    --foreground: 151 34% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 151 34% 12%;
+    --primary: 145 42% 28%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 92 17% 88%;
+    --secondary-foreground: 151 34% 15%;
+    --muted-foreground: 145 9% 35%;
+    --border: 91 12% 72%;
+    --water: 184 43% 33%;
+    --warn: 31 72% 37%;
+    --forest: 151 43% 13%;
+    --forest-foreground: 62 26% 94%;
+    --field: 83 28% 72%;
+  }
+
   .no-print {
     display: none !important;
   }
+
+  html,
   body {
-    background: #fff;
+    min-height: 0;
+    background: #fff !important;
+    color: hsl(var(--foreground)) !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
   }
-  .print-open {
+
+  .dashboard-layout,
+  .dashboard-main,
+  .report-shell {
+    width: 100% !important;
+    max-width: none !important;
     display: block !important;
+    padding: 0 !important;
+  }
+
+  .report-sheet {
+    display: block !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    animation: none !important;
+  }
+
+  .report-document-header {
+    background: hsl(var(--forest)) !important;
+    color: hsl(var(--forest-foreground)) !important;
+  }
+
+  .report-metric,
+  .report-table,
+  .report-summary,
+  tr {
+    break-inside: avoid;
+  }
+
+  .report-status-ok {
+    background: hsl(var(--secondary)) !important;
+    color: hsl(var(--secondary-foreground)) !important;
+  }
+
+  .report-status-warn {
+    background: hsl(var(--warn) / 0.14) !important;
+    color: hsl(var(--warn)) !important;
   }
 }

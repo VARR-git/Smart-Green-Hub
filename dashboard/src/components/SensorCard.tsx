@@ -1,5 +1,4 @@
 import type { LucideIcon } from "lucide-react"
-import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import type { Status } from "@/lib/format"
 
@@ -21,6 +20,7 @@ interface Props {
   label: string
   value: string
   unit?: string
+  hint?: string
   status?: Status
   accent?: "primary" | "water"
 }
@@ -30,28 +30,29 @@ export function SensorCard({
   label,
   value,
   unit,
+  hint,
   status = "none",
   accent = "primary",
 }: Props) {
   return (
-    <Card className="p-4">
-      <div className="flex items-center justify-between">
-        <span className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+    <div className="min-w-0 p-4">
+      <div className="flex items-center justify-between gap-2">
+        <span className="flex min-w-0 items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
           <Icon
             className={cn(
               "size-4",
               accent === "water" ? "text-water" : "text-primary",
             )}
           />
-          {label}
+          <span className="truncate">{label}</span>
         </span>
-        <span className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground">
+        <span className="flex items-center gap-1 text-[9px] font-semibold text-muted-foreground">
           <span className={cn("size-1.5 rounded-full", DOT[status])} />
           {LABEL[status]}
         </span>
       </div>
-      <div className="mt-3 flex items-baseline gap-1">
-        <span className="nums text-3xl font-semibold tracking-tight">
+      <div className="mt-4 flex items-baseline gap-1">
+        <span className="nums text-3xl font-semibold tracking-[-0.06em]">
           {value}
         </span>
         {unit && (
@@ -60,6 +61,9 @@ export function SensorCard({
           </span>
         )}
       </div>
-    </Card>
+      {hint && (
+        <p className="mt-2 text-[10px] text-muted-foreground">Target {hint}</p>
+      )}
+    </div>
   )
 }
